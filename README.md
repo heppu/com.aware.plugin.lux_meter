@@ -4,5 +4,5 @@ Lux Meter is a plugin for [AWARE framework](http://www.awareframework.com/) that
 
 
 TODO
-====
+----
 Check problems with dashboard communication.
