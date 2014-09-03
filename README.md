@@ -5,6 +5,6 @@ Lux Meter is a plugin for [AWARE framework](http://www.awareframework.com/) that
 
 TODO
 ----
--Check problems with [dashboard](https://api.awareframework.com/) communication.
--Update plot more frequently than frequency setting.
--Show last measured lux level.
+* Check problems with [dashboard](https://api.awareframework.com/) communication.
+* Update plot more frequently than frequency setting.
+* Show last measured lux level.
