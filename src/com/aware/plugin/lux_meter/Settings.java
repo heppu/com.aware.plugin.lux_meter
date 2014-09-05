@@ -15,20 +15,13 @@ import com.aware.plugin.lux_meter.R;
 
 public class Settings extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 
-	/**
-	 * Activate/deactivate plugin
-	 */
 	public static final String STATUS_PLUGIN_LUX_METER = "status_plugin_lux_meter";
 	
-	/**
-	 * How frequently do we sample the microphone
-	 */
 	public static final String FREQUENCY_PLUGIN_LUX_METER = "frequency_plugin_lux_meter";
 	
-	/**
-	 * Adaptive silence threshold (device dependent)
-	 */
 	protected static final String THRESHOLD_PLUGIN_LUX_METER = "threshold_plugin_lux_meter";
+	
+	protected static final String TIME_WINDOW_PLUGIN_LUX_METER = "time_window_plugin_lux_meter";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +41,13 @@ public class Settings extends PreferenceActivity implements OnSharedPreferenceCh
 			Aware.setSetting(getApplicationContext(), FREQUENCY_PLUGIN_LUX_METER, 5);
 		}
 		frequency.setSummary(Aware.getSetting(getApplicationContext(), FREQUENCY_PLUGIN_LUX_METER) + " minutes");
+		
+
+		EditTextPreference time_window = (EditTextPreference) findPreference(TIME_WINDOW_PLUGIN_LUX_METER);
+		if( Aware.getSetting(getApplicationContext(), TIME_WINDOW_PLUGIN_LUX_METER).length() == 0 ) {
+			Aware.setSetting(getApplicationContext(), TIME_WINDOW_PLUGIN_LUX_METER, 1);
+		}
+		time_window.setSummary(Aware.getSetting(getApplicationContext(), TIME_WINDOW_PLUGIN_LUX_METER) + " minutes");
 		
 		EditTextPreference threshold = (EditTextPreference) findPreference(THRESHOLD_PLUGIN_LUX_METER);
 		if( Aware.getSetting(getApplicationContext(), THRESHOLD_PLUGIN_LUX_METER).length() == 0 ) {
@@ -73,6 +73,11 @@ public class Settings extends PreferenceActivity implements OnSharedPreferenceCh
 		if( preference.getKey().equals(FREQUENCY_PLUGIN_LUX_METER)) {
 			preference.setSummary(sharedPreferences.getString(key, "5") + " minutes");
 			Aware.setSetting(getApplicationContext(), key, sharedPreferences.getString(key, "5"));
+		}
+		
+		if( preference.getKey().equals(TIME_WINDOW_PLUGIN_LUX_METER)) {
+			preference.setSummary(sharedPreferences.getString(key, "1") + " minutes");
+			Aware.setSetting(getApplicationContext(), key, sharedPreferences.getString(key, "1"));
 		}
 		
 		if( preference.getKey().equals(THRESHOLD_PLUGIN_LUX_METER)) {

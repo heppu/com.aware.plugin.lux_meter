@@ -12,8 +12,16 @@
         android:defaultValue="5"
         android:key="frequency_plugin_lux_meter"
         android:persistent="true"
-        android:summary="5 seconds"
-        android:title="How frequently to sample light (in minutes)"
+        android:summary="5 minutes"
+        android:title="How frequently to calculate average light (in minutes)"
+        android:inputType="numberDecimal" />
+    
+    <EditTextPreference
+        android:defaultValue="1"
+        android:key="time_window_plugin_lux_meter"
+        android:persistent="true"
+        android:summary="1 minute"
+        android:title="Time window for frequency (in minutes)"
         android:inputType="numberDecimal" />
     
     <EditTextPreference
