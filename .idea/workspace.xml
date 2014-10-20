@@ -20,7 +20,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f3363481-6278-4e80-830b-03b6d36bc94b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="com.aware.plugin.lux_meter.iws" />
@@ -2592,6 +2591,11 @@
       <created>1413804886238</created>
       <updated>1413804886238</updated>
     </task>
+    <task id="LOCAL-00001" summary="Android Studio changes">
+      <created>1413819757520</created>
+      <updated>1413819757520</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
