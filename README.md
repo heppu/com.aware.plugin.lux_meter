@@ -4,18 +4,23 @@ Lux Meter
 Lux Meter is plugin for [AWARE](http://www.awareframework.com/) whitch can be also found on Github [AWARE](https://github.com/denzilferreira/aware-client).
 Lux Meter allows you to record light data without draining your battery. You can also use it in real time mode when you see line graph in real time.
 
+
 Settings:
 ---------
+**status_plugin_lux_meter** Activate / Deactivate plugin
 
-**status_plugin_lux_meter**    Activate / Deactivate plugin
 **frequency_plugin_lux_meter** How frequently to activate light sensor
-**samples_plugin_lux_meter**   How many samples to take at time
+
+**samples_plugin_lux_meter** How many samples to take at time
+
 **threshold_plugin_lux_mete:** Optional setting that allows you to see in broadcast if average lux value was over threshold
-**mode_plugin_lux_meter**      Real time or normal mode
+
+**mode_plugin_lux_meter** Real time or normal mode
+
 
 Broadcasts
 ----------
-
  **ACTION_AWARE_PLUGIN_LUX_METER** broadcasted after every new average calculation
- - **avg_lux**: average lux value of last calculation
- - **over_threshold**: is the average over threshold
+ -**avg_lux**: average lux value of last calculation
+ -**over_threshold**: is the average over threshold
+
