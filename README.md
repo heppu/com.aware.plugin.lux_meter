@@ -1,8 +1,8 @@
 Lux Meter
 =========
 
-Lux Meter is plugin for [AWARE](http://www.awareframework.com/) whitch can be also found on Github [AWARE](https://github.com/denzilferreira/aware-client).
-Lux Meter allows you to record light data without draining your battery. You can also use it in real time mode when you see line graph in real time.
+Lux Meter is plugin for [AWARE](http://www.awareframework.com/) whitch can be also found in Github [aware-client](https://github.com/denzilferreira/aware-client).
+This plugin allows you to record light data without draining your battery. You can also use it in real time mode so that you see line graph in real time.
 
 
 Settings:
