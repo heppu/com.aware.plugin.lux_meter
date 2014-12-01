@@ -35,7 +35,7 @@ public class Plugin extends Aware_Plugin {
 
     public static final String LUXMETER_PREFS = "luxmeter_prefs" ;
 
-    private static double avg = 0;
+    private static int avg = 0;
 
     private static double counter = 0;
     private static double avg_val = 0;
@@ -82,7 +82,7 @@ public class Plugin extends Aware_Plugin {
                     counter = counter + 1;
                 } else {
                     lock = true;
-                    avg = avg_val / counter;
+                    avg = (int)(avg_val/counter);
                     over_threashold = false;
 
                     if( Integer.parseInt(Aware.getSetting(getApplicationContext(), Settings.THRESHOLD_PLUGIN_LUX_METER)) < avg ) {

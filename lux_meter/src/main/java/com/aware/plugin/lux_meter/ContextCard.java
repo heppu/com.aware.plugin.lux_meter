@@ -53,9 +53,11 @@ public class ContextCard implements IContextCard {
         public void onReceive(Context context, Intent intent) {
             if(!lock) {
                 ContentValues values = (ContentValues) intent.getExtras().get(Light.EXTRA_DATA);
-                current = Double.parseDouble(values.get(Light_Data.LIGHT_LUX).toString());
-                avg = avg + current;
-                counter = counter + 1;
+                if(values.get(Light_Data.LIGHT_LUX)!=null) {
+                    current = Double.parseDouble(values.get(Light_Data.LIGHT_LUX).toString());
+                    avg = avg + current;
+                    counter = counter + 1;
+                }
             }
         }
     }
