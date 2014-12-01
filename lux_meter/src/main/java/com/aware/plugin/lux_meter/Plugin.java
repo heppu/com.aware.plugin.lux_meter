@@ -33,8 +33,6 @@ public class Plugin extends Aware_Plugin {
 
     public static ContextProducer context_producer;
 
-    public static final String LUXMETER_PREFS = "luxmeter_prefs" ;
-
     private static int avg = 0;
 
     private static double counter = 0;
@@ -98,7 +96,7 @@ public class Plugin extends Aware_Plugin {
                     data.put(LuxMeter_Data.DEVICE_ID, Aware.getSetting(getApplicationContext(), Aware_Preferences.DEVICE_ID));
                     data.put(LuxMeter_Data.UPDATE_FREQUENCY, Integer.parseInt(Aware.getSetting(getApplicationContext(), Settings.FREQUENCY_PLUGIN_LUX_METER)));
                     data.put(LuxMeter_Data.LIGHT_THRESHOLD, Integer.parseInt(Aware.getSetting(getApplicationContext(), Settings.THRESHOLD_PLUGIN_LUX_METER)));
-                    data.put(LuxMeter_Data.LUX_AVG, avg_val);
+                    data.put(LuxMeter_Data.LUX_AVG, avg);
                     data.put(LuxMeter_Data.OVER_THRESHOLD, over_threashold);
                     getContentResolver().insert(LuxMeter_Data.CONTENT_URI, data);
                     context_producer.onContext();
