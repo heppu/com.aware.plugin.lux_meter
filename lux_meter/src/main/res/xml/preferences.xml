@@ -2,11 +2,17 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <CheckBoxPreference
-        android:defaultValue="false"
         android:key="status_plugin_lux_meter"
         android:persistent="true"
         android:summary="Detects amount of light."
         android:title="Active" />
+
+    <CheckBoxPreference
+        android:key="mode_plugin_lux_meter"
+        android:persistent="true"
+        android:summaryOff="Off"
+        android:summaryOn="On (measures when stream is open)"
+        android:title="Real Time" />
 
     <EditTextPreference
         android:defaultValue="5"
@@ -14,22 +20,22 @@
         android:persistent="true"
         android:summary="5 minutes"
         android:title="How frequently to calculate average light (in minutes)"
-        android:inputType="numberDecimal" />
+        android:inputType="number" />
 
     <EditTextPreference
-        android:defaultValue="1"
-        android:key="time_window_plugin_lux_meter"
+        android:defaultValue="30"
+        android:key="samples_plugin_lux_meter"
         android:persistent="true"
-        android:summary="1 minute"
-        android:title="Time window for frequency (in minutes)"
-        android:inputType="numberDecimal" />
+        android:summary="30"
+        android:title="How many samples to take at once"
+        android:inputType="number" />
 
     <EditTextPreference
         android:defaultValue="100"
         android:key="threshold_plugin_lux_meter"
         android:persistent="true"
         android:summary="100 lux"
-        android:title="Enaught light to charge phone (in lux)"
-        android:inputType="numberDecimal" />
+        android:title="Threshold for light (in lux)"
+        android:inputType="number" />
 
 </PreferenceScreen>

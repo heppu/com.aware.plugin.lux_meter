@@ -1,6 +1,7 @@
 package com.aware.plugin.lux_meter;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -26,28 +27,62 @@ import org.achartengine.model.XYSeries;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class ContextCard implements IContextCard {
 
-    /**
-     * Empty constructor required for Java reflection to load the card
-     *
-     */
-    public ContextCard(){};
-
     private static LinearLayout lux_plot;
 
-    private static int freq;
+    private static boolean mode;
+
+    private boolean isRegistered = false;
+
+    private static ContextReceiver lightReceiver = new ContextReceiver();
+
+    private static List<Double> luxList = new ArrayList<Double>();
+
+    private static double current = 0;
+    private static double avg = 0;
+    private static double counter = 0;
+    private static boolean lock = false;
+
+    public static class ContextReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(!lock) {
+                ContentValues values = (ContentValues) intent.getExtras().get(Light.EXTRA_DATA);
+                current = Double.parseDouble(values.get(Light_Data.LIGHT_LUX).toString());
+                avg = avg + current;
+                counter = counter + 1;
+            }
+        }
+    }
+
+    public ContextCard(){};
 
 	static String[] x_hours = new String[]{"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23"};
 	
 	public View getContextCard( Context context ) {
-        Log.d("asd", "getContextCard");
+        if(!isRegistered) {
+            isRegistered = true;
+            try {
+                context.unregisterReceiver(lightReceiver);
+                IntentFilter contextFilter = new IntentFilter();
+                contextFilter.addAction(Light.ACTION_AWARE_LIGHT);
+                context.registerReceiver(lightReceiver, contextFilter);
+            } catch (IllegalArgumentException e) {
+                IntentFilter contextFilter = new IntentFilter();
+                contextFilter.addAction(Light.ACTION_AWARE_LIGHT);
+                context.registerReceiver(lightReceiver, contextFilter);
+            }
+        }
+
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View card = inflater.inflate(R.layout.layout, null);
 
-        freq = Integer.parseInt(Aware.getSetting(context, Settings.FREQUENCY_PLUGIN_LUX_METER));
+        mode =  Boolean.parseBoolean(Aware.getSetting(context, Settings.MODE_PLUGIN_LUX_METER));
 
         lux_plot = (LinearLayout) card.findViewById(R.id.lux_plot);
         lux_plot.removeAllViews();
@@ -59,23 +94,31 @@ public class ContextCard implements IContextCard {
     private static GraphicalView drawGraph( Context context ) {
         GraphicalView mChart = null;
 
-        if(freq ==  0) {
-            Log.d("asd", "refresh graph 0");
-            //Apply user-defined time window
-            if( Aware.getSetting(context, Settings.TIME_WINDOW_PLUGIN_LUX_METER).length() == 0 ) {
-                Aware.setSetting(context, Settings.TIME_WINDOW_PLUGIN_LUX_METER, 5);
-            }
-
-            long delta_time = System.currentTimeMillis()-(Integer.valueOf(Aware.getSetting(context, Settings.TIME_WINDOW_PLUGIN_LUX_METER)) * 60 * 1000);
-
+        if(mode) {
+            lock = true;
             XYSeries frequency_series = new XYSeries("Light (Lux)");
-            Cursor light_cursor = context.getContentResolver().query(Light_Data.CONTENT_URI, null, Light_Data.TIMESTAMP + " > " + delta_time, null, Light_Data.TIMESTAMP + " ASC");
-            if( light_cursor != null && light_cursor.moveToFirst() ) {
-                do {
-                    frequency_series.add(light_cursor.getPosition(), light_cursor.getDouble(light_cursor.getColumnIndex(Light_Data.LIGHT_LUX)));
-                } while( light_cursor.moveToNext() );
-                light_cursor.close();
+
+            if(counter == 0) {
+                avg = 0;
+            } else {
+                avg = avg / counter;
             }
+            luxList.add(avg);
+
+            //keeps the list size in 60 ~ 1min
+            int j = 0;
+            for(int i=0; i<luxList.size(); i++) {
+                if (luxList.size() - i < 61){
+                    frequency_series.add(i-j, luxList.get(i));
+                } else {
+                    luxList.remove(i);
+                    j++;
+                }
+            }
+
+            counter = 0;
+            avg = 0;
+            lock = false;
 
             XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
             dataset.addSeries(frequency_series);
@@ -94,7 +137,7 @@ public class ContextCard implements IContextCard {
             dataset_renderer.setApplyBackgroundColor(true);
             dataset_renderer.setBackgroundColor(Color.WHITE);
             dataset_renderer.setMarginsColor(Color.WHITE);
-            dataset_renderer.setAxesColor(Color.BLACK); //used in titlesv
+            dataset_renderer.setAxesColor(Color.BLACK);
             dataset_renderer.setYTitle("Lux");
             dataset_renderer.setXTitle("Time");
             dataset_renderer.setFitLegend(true);
@@ -113,7 +156,6 @@ public class ContextCard implements IContextCard {
             //put everything together
             mChart = (GraphicalView) ChartFactory.getLineChartView(context, dataset, dataset_renderer);
         } else {
-            Log.d("asd", "refresh graph other");
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(System.currentTimeMillis());
             c.set(Calendar.HOUR_OF_DAY, 0);
