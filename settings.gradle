@@ -1,4 +1,0 @@
-include ':aChartAndroidlib'
-include ':lux_meter'
-include ':aware-core'
-project(':aware-core').projectDir = new File(settingsDir, '../aware-client/aware-core')
