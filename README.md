@@ -15,9 +15,9 @@ Settings:
 
 Broadcasts
 ----------
-- **ACTION_AWARE_PLUGIN_LUX_METER:**  Broadcasted after every new average calculation
-⋅⋅* avg_lux:* average lux value after previous broadcast
-⋅⋅* over_threshold:* is the average over threshold
+- **ACTION_AWARE_PLUGIN_LUX_METER:** Broadcasted after every new average calculation
+  - **avg_lux:** average lux value after previous broadcast
+  - **over_threshold:** is the average over threshold
 
 
 Providers
